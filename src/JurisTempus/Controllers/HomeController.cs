@@ -24,7 +24,17 @@ namespace JurisTempus.Controllers
 
     public IActionResult Index()
     {
-      var result = _context.Clients.Include(c => c.Address).ToArray();
+      var result = _context.Clients
+                  //.Include(c => c.Address)
+                  .Select(c => new ClientViewModel()
+                  {
+                      Id = c.Id,
+                      Name = c.Name,
+                      ContactName = c.Contact,
+                      Phone = c.Phone
+                  })
+                  .ToArray();
+
       return View(result);
     }
 

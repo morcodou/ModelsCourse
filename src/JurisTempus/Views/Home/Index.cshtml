@@ -1,9 +1,16 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@{
+  ViewData["Title"] = "Home Page";
 }
-  <div class="row">
-    <div class="col-8 offset-2">
-      <h3>Clients</h3>
-    </div>
+
+@model ClientViewModel[]
+<div class="row">
+  <div class="col-8 offset-2">
+    <h3>Clients</h3>
+    @foreach (var client in Model)
+    {
+      <div> @client.Name - @client.ContactName</div>
+      <div> Ph: @client.Phone </div>
+    }
   </div>
+</div>
 
