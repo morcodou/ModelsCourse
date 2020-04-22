@@ -15,6 +15,7 @@ namespace JurisTempus.Validators
       RuleFor(c => c.Status).IsInEnum()
                             .NotEqual(CaseStatus.Invalid)
                             .WithName("CaseStatus");
+
     }
   }
 }
