@@ -1,6 +1,9 @@
 @{
   ViewData["Title"] = "Client Editor";
 }
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
 
 @model ClientViewModel
 <div class="row">
@@ -11,10 +14,12 @@
       <div class="form-group">
         <label asp-for="Name"></label>
         <input class="form-control" asp-for="Name" />
+        <span asp-validation-for="Name" class="text-warning"></span>
       </div>
       <div class="form-group">
         <label asp-for="ContactName"></label>
         <input class="form-control" asp-for="ContactName" />
+        <span asp-validation-for="ContactName" class="text-warning"></span>
       </div>
       <div class="form-group">
         <label asp-for="Phone"></label>
