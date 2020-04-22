@@ -54,15 +54,22 @@ namespace JurisTempus.Controllers
     }
 
     [HttpPost]
-    public async Task<ActionResult<TimeBill>> Post([FromBody]TimeBill bill)
+    public async Task<ActionResult<TimeBillViewModel>> Post([FromBody]TimeBillViewModel model)
     {
+      var bill = _mapper.Map<TimeBill>(model);
+
       var theCase = await _ctx.Cases
-        .Where(c => c.Id == bill.Case.Id)
+        .Where(c => c.Id == model.CaseId)
         .FirstOrDefaultAsync();
 
       var theEmployee = await _ctx.Employees
-        .Where(e => e.Id == bill.Employee.Id)
+        .Where(e => e.Id == model.EmployeeId)
         .FirstOrDefaultAsync();
+
+      if (theCase == null || theEmployee == null)
+      {
+        return BadRequest("Could not find case or employee");
+      }
 
       bill.Case = theCase;
       bill.Employee = theEmployee;
@@ -70,7 +77,7 @@ namespace JurisTempus.Controllers
       _ctx.Add(bill);
       if (await _ctx.SaveChangesAsync() > 0)
       {
-        return CreatedAtAction("Get", new { id = bill.Id }, bill);
+        return CreatedAtAction("Get", new { id = bill.Id }, _mapper.Map<TimeBillViewModel>(bill));
       }
 
       return BadRequest("Failed to save new timebill");
