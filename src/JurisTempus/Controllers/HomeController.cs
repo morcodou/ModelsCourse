@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging;
 using JurisTempus.Data;
 using Microsoft.EntityFrameworkCore;
 using JurisTempus.ViewModels;
+using AutoMapper;
+using JurisTempus.Data.Entities;
 
 namespace JurisTempus.Controllers
 {
@@ -15,27 +17,31 @@ namespace JurisTempus.Controllers
   {
     private readonly ILogger<HomeController> _logger;
     private readonly BillingContext _context;
+    private readonly IMapper _mapper;
 
-    public HomeController(ILogger<HomeController> logger, BillingContext context)
+    public HomeController(ILogger<HomeController> logger, BillingContext context, IMapper mapper)
     {
       _logger = logger;
       _context = context;
+      _mapper = mapper;
     }
 
     public IActionResult Index()
     {
       var result = _context.Clients
                   //.Include(c => c.Address)
-                  .Select(c => new ClientViewModel()
-                  {
-                      Id = c.Id,
-                      Name = c.Name,
-                      ContactName = c.Contact,
-                      Phone = c.Phone
-                  })
+                  //.Select(c => new ClientViewModel()
+                  //{
+                  //    Id = c.Id,
+                  //    Name = c.Name,
+                  //    ContactName = c.Contact,
+                  //    Phone = c.Phone
+                  //})
                   .ToArray();
 
-      return View(result);
+      var vms = _mapper.Map<Client[], ClientViewModel[]>(result);
+
+      return View(vms);
     }
 
     [HttpGet("editor/{id:int}")]
