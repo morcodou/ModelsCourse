@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace JurisTempus.Profiles
 {
-  public class JurisProfiles:Profile
+  public class JurisProfiles : Profile
   {
     public JurisProfiles()
     {
@@ -21,6 +21,9 @@ namespace JurisTempus.Profiles
         .ForMember(vm => vm.PostalCode, map => map.MapFrom(client => client.Address.PostalCode))
         .ForMember(vm => vm.Country, map => map.MapFrom(client => client.Address.Country))
         .ForMember(vm => vm.StateProvince, map => map.MapFrom(client => client.Address.StateProvince))
+        .ReverseMap();
+
+      CreateMap<Case, CaseViewModel>()
         .ReverseMap();
     }
   }

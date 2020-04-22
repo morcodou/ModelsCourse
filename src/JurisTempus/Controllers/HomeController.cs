@@ -30,6 +30,7 @@ namespace JurisTempus.Controllers
     {
       var result = _context.Clients
                   .Include(c => c.Address)
+                  .Include(c=> c.Cases)
                   //.Select(c => new ClientViewModel()
                   //{
                   //    Id = c.Id,

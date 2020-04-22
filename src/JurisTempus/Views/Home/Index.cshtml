@@ -11,6 +11,12 @@
       <div> @client.Name - @client.ContactName</div>
       <div> Ph: @client.Phone </div>
       <div> @client.CityTown - @client.StateProvince</div>
+      <ul>
+        @foreach (var ccase in @client.Cases)
+        {
+          <li> @ccase.FileNumber</li>
+        }
+      </ul>
     }
   </div>
 </div>

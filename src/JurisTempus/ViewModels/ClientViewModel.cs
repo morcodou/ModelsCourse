@@ -14,7 +14,7 @@ namespace JurisTempus.ViewModels
     public string Phone { get; set; }
     public string ContactName { get; set; }
 
-    //public ICollection<Case> Cases { get; set; }
+    public ICollection<CaseViewModel> Cases { get; set; }
     //public ICollection<Invoice> Invoices { get; set; }
 
     public string Address1 { get; set; }
