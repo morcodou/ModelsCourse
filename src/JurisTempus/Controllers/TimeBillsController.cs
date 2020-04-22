@@ -1,5 +1,7 @@
+using AutoMapper;
 using JurisTempus.Data;
 using JurisTempus.Data.Entities;
+using JurisTempus.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -16,27 +18,31 @@ namespace JurisTempus.Controllers
   {
     private readonly ILogger<TimeBillsController> _logger;
     private readonly BillingContext _ctx;
+    private readonly IMapper _mapper;
 
-    public TimeBillsController(ILogger<TimeBillsController> logger,
-      BillingContext ctx)
+    public TimeBillsController(
+      ILogger<TimeBillsController> logger,
+      BillingContext ctx,
+      IMapper mapper)
     {
       _logger = logger;
       _ctx = ctx;
+      _mapper = mapper;
     }
 
     [HttpGet]
-    public async Task<ActionResult<TimeBill[]>> Get()
+    public async Task<ActionResult<TimeBillViewModel[]>> Get()
     {
       var result = await _ctx.TimeBills
         .Include(t => t.Case)
         .Include(t => t.Employee)
         .ToArrayAsync();
 
-      return Ok(result);
+      return Ok(_mapper.Map<TimeBill[], TimeBillViewModel[]>(result));
     }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<TimeBill>> Get(int id)
+    public async Task<ActionResult<TimeBillViewModel>> Get(int id)
     {
       var result = await _ctx.TimeBills
         .Include(t => t.Case)
@@ -44,7 +50,7 @@ namespace JurisTempus.Controllers
         .Where(t => t.Id == id)
         .FirstOrDefaultAsync();
 
-      return Ok(result);
+      return Ok(_mapper.Map<TimeBill, TimeBillViewModel>(result));
     }
 
     [HttpPost]
