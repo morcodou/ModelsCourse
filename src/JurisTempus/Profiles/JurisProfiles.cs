@@ -14,6 +14,13 @@ namespace JurisTempus.Profiles
     {
       CreateMap<Client, ClientViewModel>()
         .ForMember(vm => vm.ContactName, map => map.MapFrom(client => client.Contact))
+        .ForMember(vm => vm.Address1, map => map.MapFrom(client => client.Address.Address1))
+        .ForMember(vm => vm.Address2, map => map.MapFrom(client => client.Address.Address2))
+        .ForMember(vm => vm.Address2, map => map.MapFrom(client => client.Address.Address2))
+        .ForMember(vm => vm.CityTown, map => map.MapFrom(client => client.Address.CityTown))
+        .ForMember(vm => vm.PostalCode, map => map.MapFrom(client => client.Address.PostalCode))
+        .ForMember(vm => vm.Country, map => map.MapFrom(client => client.Address.Country))
+        .ForMember(vm => vm.StateProvince, map => map.MapFrom(client => client.Address.StateProvince))
         .ReverseMap();
     }
   }
