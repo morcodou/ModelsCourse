@@ -1,3 +1,4 @@
+using JurisTempus.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,13 @@ namespace JurisTempus.ViewModels
 
     //public ICollection<Case> Cases { get; set; }
     //public ICollection<Invoice> Invoices { get; set; }
+
+    public string AddressAddress1 { get; set; }
+    public string AddressAddress2 { get; set; }
+    public string AddressAddress3 { get; set; }
+    public string AddressCityTown { get; set; }
+    public string AddressStateProvince { get; set; }
+    public string AddressPostalCode { get; set; }
+    public string AddressCountry { get; set; }
   }
 }
