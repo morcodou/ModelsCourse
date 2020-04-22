@@ -8,14 +8,11 @@ namespace JurisTempus.Validators
   {
     public TimeBillViewModelValidator()
     {
-      //RuleFor(c => c.FileNumber).NotEmpty()
-      //                          .Matches(@"^\d{10}")
-      //                          .WithMessage("File Number must be ten digits");
-
-      //RuleFor(c => c.Status).IsInEnum()
-      //                      .NotEqual(CaseStatus.Invalid)
-      //                      .WithName("CaseStatus");
-
+      RuleFor(b => b.Rate).InclusiveBetween(0m,500m);
+      RuleFor(b => b.TimeSegments).GreaterThan(0);
+      RuleFor(b => b.WorkDescription).MinimumLength(25);
+      RuleFor(b => b.CaseId).NotEmpty();
+      RuleFor(b => b.EmployeeId).NotEmpty();
     }
   }
 }

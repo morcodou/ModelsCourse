@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace JurisTempus.Controllers
 {
+  [ApiController]
   [Route("api/timebills")]
   public class TimeBillsController : ControllerBase
   {
