@@ -1,15 +1,13 @@
-using System;
-using System.Collections.Generic;
+using AutoMapper;
+using JurisTempus.Data;
+using JurisTempus.Data.Entities;
+using JurisTempus.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using JurisTempus.Data;
-using Microsoft.EntityFrameworkCore;
-using JurisTempus.ViewModels;
-using AutoMapper;
-using JurisTempus.Data.Entities;
 
 namespace JurisTempus.Controllers
 {
@@ -31,13 +29,6 @@ namespace JurisTempus.Controllers
       var result = _context.Clients
                   .Include(c => c.Address)
                   .Include(c => c.Cases)
-                  //.Select(c => new ClientViewModel()
-                  //{
-                  //    Id = c.Id,
-                  //    Name = c.Name,
-                  //    ContactName = c.Contact,
-                  //    Phone = c.Phone
-                  //})
                   .ToArray();
 
       var vms = _mapper.Map<Client[], ClientViewModel[]>(result);
