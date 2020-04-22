@@ -30,7 +30,7 @@ namespace JurisTempus.Controllers
     {
       var result = _context.Clients
                   .Include(c => c.Address)
-                  .Include(c=> c.Cases)
+                  .Include(c => c.Cases)
                   //.Select(c => new ClientViewModel()
                   //{
                   //    Id = c.Id,
@@ -53,8 +53,29 @@ namespace JurisTempus.Controllers
         .Where(c => c.Id == id)
         .FirstOrDefaultAsync();
 
-      return View(result);
+      return View(_mapper.Map<ClientViewModel>(result));
     }
+
+    [HttpPost("editor/{id:int}")]
+    public async Task<IActionResult> ClientEditor(int id, ClientViewModel model)
+    {
+      var oldClient = await _context.Clients
+                      .Include(c => c.Address)
+                      .Where(c => c.Id == id)
+                      .FirstOrDefaultAsync();
+
+      if (oldClient != null)
+      {
+        // Update database
+        _mapper.Map(model, oldClient);
+
+        if (await _context.SaveChangesAsync() > 0)
+          return RedirectToAction("Index");
+      }
+
+      return View();
+    }
+
 
     [HttpGet("timesheet")]
     public IActionResult Timesheet()

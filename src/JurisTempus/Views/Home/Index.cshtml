@@ -3,6 +3,7 @@
 }
 
 @model ClientViewModel[]
+
 <div class="row">
   <div class="col-8 offset-2">
     <h3>Clients</h3>
@@ -17,6 +18,8 @@
           <li> @ccase.FileNumber</li>
         }
       </ul>
+
+      <a asp-action="ClientEditor" asp-route-id="@client.Id" class="btn btn-sm btn-primary">Edit</a>
     }
   </div>
 </div>
