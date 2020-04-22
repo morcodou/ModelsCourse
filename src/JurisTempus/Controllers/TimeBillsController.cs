@@ -85,33 +85,34 @@ namespace JurisTempus.Controllers
     }
 
     [HttpPut("{id:int}")]
-    public async Task<ActionResult<TimeBill>> Put(int id, [FromBody]TimeBill bill)
+    public async Task<ActionResult<TimeBillViewModel>> Put(int id, [FromBody]TimeBillViewModel model)
     {
       var oldBill = await _ctx.TimeBills
         .Where(b => b.Id == id)
         .FirstOrDefaultAsync();
 
       if (oldBill == null) return BadRequest("Invalid ID");
-
-      oldBill.Rate = bill.Rate;
-      oldBill.TimeSegments = bill.TimeSegments;
-      oldBill.WorkDate = bill.WorkDate;
-      oldBill.WorkDescription = bill.WorkDescription;
+      _mapper.Map(model, oldBill);
 
       var theCase = await _ctx.Cases
-        .Where(c => c.Id == bill.Case.Id)
+        .Where(c => c.Id == model.CaseId)
         .FirstOrDefaultAsync();
 
       var theEmployee = await _ctx.Employees
-        .Where(e => e.Id == bill.Employee.Id)
+        .Where(e => e.Id == model.EmployeeId)
         .FirstOrDefaultAsync();
 
-      bill.Case = theCase;
-      bill.Employee = theEmployee;
+      if (theCase == null || theEmployee == null)
+      {
+        return BadRequest("Could not find case or employee");
+      }
+
+      oldBill.Case = theCase;
+      oldBill.Employee = theEmployee;
 
       if (await _ctx.SaveChangesAsync() > 0)
       {
-        return Ok(bill);
+        return Ok(_mapper.Map<TimeBillViewModel>(oldBill));
       }
 
       return BadRequest("Failed to save new timebill");
